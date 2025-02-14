@@ -2,7 +2,7 @@ IMAGE=xv6
 LOCAL_IMAGE=xv6
 WORKDIR=/xv6-riscv
 
-.PHONY: image start attach debug-server clean
+.PHONY: image start attach clean
 
 image: Dockerfile ## Build the docker image if it doesn't exist
 ifeq ("$(shell docker images -q $(LOCAL_IMAGE))", "")
@@ -24,13 +24,6 @@ endif
 
 attach: start ## Attach to the container.
 	docker exec -it xv6 bash
-
-debug-server: start ## Start the debug server
-	docker exec \
-		-d \
-		-it \
-		xv6 \
-		sh -c "make qemu-gdb"
 
 clean: ## Stop and remove the container
 	docker container stop xv6
